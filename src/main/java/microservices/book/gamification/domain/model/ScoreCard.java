@@ -14,11 +14,11 @@ public class ScoreCard {
 
     }
 
-    public ScoreCard(Long userId, Long attemptId) {
+    public ScoreCard(final Long userId, final Long attemptId) {
         this(null, userId, attemptId, System.currentTimeMillis(), DEFAULT_SCORE);
     }
 
-    public ScoreCard(Long cardId, Long userId, Long attemptId, long scoreTimestamp, int score) {
+    public ScoreCard(final Long cardId, final Long userId, final Long attemptId, final long scoreTimestamp, final int score) {
         this.cardId = cardId;
         this.userId = userId;
         this.attemptId = attemptId;
