@@ -8,19 +8,54 @@ public class BadgeCardAggregate {
     private long badgeTimestamp;
     private BadgeType badgeType;
 
-    public BadgeCardAggregate() {
+    private BadgeCardAggregate() {
     }
 
-    public BadgeCardAggregate(Long userId, BadgeType badgeType) {
+    private BadgeCardAggregate(Long userId, BadgeType badgeType) {
         this(null, userId, System.currentTimeMillis(), badgeType);
     }
 
-    public BadgeCardAggregate(Long badgeId, Long userId, long badgeTimestamp, BadgeType badgeType) {
-        validateInput(userId, badgeType);
-
+    private BadgeCardAggregate(Long badgeId, Long userId, long badgeTimestamp, BadgeType badgeType) {
         this.badgeId = badgeId;
         this.userId = userId;
         this.badgeTimestamp = badgeTimestamp;
+        this.badgeType = badgeType;
+    }
+
+    public static BadgeCardAggregate create(Long userId, BadgeType badgeType) {
+        validateInput(userId, badgeType);
+        return new BadgeCardAggregate(userId, badgeType);
+    }
+
+    public Long getBadgeId() {
+        return badgeId;
+    }
+
+    public void setBadgeId(Long badgeId) {
+        this.badgeId = badgeId;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public long getBadgeTimestamp() {
+        return badgeTimestamp;
+    }
+
+    public void setBadgeTimestamp(long badgeTimestamp) {
+        this.badgeTimestamp = badgeTimestamp;
+    }
+
+    public BadgeType getBadgeType() {
+        return badgeType;
+    }
+
+    public void setBadgeType(BadgeType badgeType) {
         this.badgeType = badgeType;
     }
 

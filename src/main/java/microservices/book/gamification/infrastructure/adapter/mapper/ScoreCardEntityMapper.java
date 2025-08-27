@@ -10,4 +10,5 @@ import org.mapstruct.factory.Mappers;
 public interface ScoreCardEntityMapper {
     ScoreCardEntityMapper MAPPER = Mappers.getMapper(ScoreCardEntityMapper.class);
     ScoredCardEntity map(ScoreCard scoreCard);
+    ScoreCard map(ScoredCardEntity scoredCardEntity);
 }
