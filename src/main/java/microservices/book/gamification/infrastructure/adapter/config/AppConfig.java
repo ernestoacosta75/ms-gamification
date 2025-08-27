@@ -17,4 +17,12 @@ public class AppConfig {
     public Hibernate6Module hibernate6Module() {
         return new Hibernate6Module();
     }
+	
+    @Bean
+    public NewTopic gamificationTopic() {
+        return new TopicBuilder.name("gamification-challenges")
+		           .partitions(3)
+				   .compact()
+				   .build();
+    }
 }
