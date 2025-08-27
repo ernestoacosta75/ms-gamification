@@ -68,6 +68,7 @@ class GameServiceTest {
                 new GameResult(20, List.of(BadgeType.LUCKY_NUMBER))
         );
 
+        // Verifying the calls to the repositories methods
         verify(scoreRepository).save(scoreCard);
         verify(badgeRepository).saveAll(List.of(new BadgeCardEntity(userId, BadgeType.LUCKY_NUMBER)));
     }
