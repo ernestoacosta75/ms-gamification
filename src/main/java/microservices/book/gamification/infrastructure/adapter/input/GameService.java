@@ -28,7 +28,7 @@ public class GameService implements IGameService {
     private final IScoreRepository scoreRepository;
     private final IBadgeRepository badgeRepository;
 
-    // Spring will inject all the @Component beans  in this list
+    // Spring will inject in this list all the @Component beans that implement this interface
     private final List<IBadgeProcessor> badgeProcessors;
 
     @Override
@@ -41,10 +41,19 @@ public class GameService implements IGameService {
             log.info("User {} scored {} points for attempt id {}",
                     challenge.getUserAlias(), scoreCard.getScore(), challenge.getAttemptId());
 
+            List<BadgeCardAggregate> badgeCardAggregateList = processForBadges(challenge);
 
+            return new GameResult(scoreCard.getScore(),
+                    badgeCardAggregateList
+                            .stream()
+                            .map(BadgeCardAggregate::getBadgeType)
+            .toList());
+        } else {
+            log.info("Attempt id {} is not correct. User {} does not get score",
+                    challenge.getAttemptId(), challenge.getUserAlias());
+
+            return new GameResult(0, List.of());
         }
-
-        return null;
     }
 
     /**
@@ -71,7 +80,7 @@ public class GameService implements IGameService {
         Set<BadgeType> alreadyGotBadges = badgeRepository
                 .findByUserIdOrderByBadgeTimestampDesc(challengeSolvedDto.getUserId())
                 .stream()
-                .map(IBadgeCardEntityMapper.MAPPER::map)
+                .map(IBadgeCardEntityMapper.MAPPER::mapToBadgeCardAggregate)
                 .map(BadgeCardAggregate::getBadgeType)
                 .collect(Collectors.toSet());
 

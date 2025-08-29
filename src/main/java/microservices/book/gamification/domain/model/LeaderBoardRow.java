@@ -1,28 +1,23 @@
 package microservices.book.gamification.domain.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Value;
+import lombok.With;
+
 import java.util.List;
 
-public record LeaderBoardRow(Long userId, Long totalScore, List<String> badges) {
+@Value
+@AllArgsConstructor
+public class LeaderBoardRow {
 
-    public LeaderBoardRow {
-        if (userId == null || totalScore == null) {
-            throw new IllegalArgumentException("User ID, total score cannot be null");
-        }
-        if (badges == null) {
-            badges = List.of();
-        }
-    }
+    Long userId;
+    Long totalScore;
+    @With
+    List<String> badges;
 
-    public LeaderBoardRow(Long userId, Long totalScore) {
-        this(userId, totalScore, List.of());
-    }
-
-    @Override
-    public String toString() {
-        return "LeaderBoardRow{" +
-                "userId=" + userId +
-                ", totalScore=" + totalScore +
-                ", badges=" + badges +
-                '}';
+    public LeaderBoardRow(final Long userId, final Long totalScore) {
+        this.userId = userId;
+        this.totalScore = totalScore;
+        this.badges = List.of();
     }
 }
