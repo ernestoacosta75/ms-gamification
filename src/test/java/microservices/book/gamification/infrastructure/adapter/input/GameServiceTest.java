@@ -45,10 +45,13 @@ class GameServiceTest {
     public void processCorrectAttemptTest() {
         // given
         long userId = 1L, attemptId = 1L, badgeId = 1L;
-        int score = 20;
+        int score = 10;
         var attempt = new ChallengeSolvedDto(attemptId, true, 20, 70, userId, "john");
         ScoreCard scoreCard = new ScoreCard(userId, attempt.getAttemptId());
         ScoredCardEntity scoreCardEntity = new ScoredCardEntity(userId, attempt.getAttemptId(), score);
+
+        given(scoreRepository.getTotalScoreForUser(userId))
+                .willReturn(Optional.of(10));
 
         given(scoreRepository.findByUserIdOrderByBadgeTimestampDesc(userId))
                 .willReturn(List.of(scoreCardEntity));
@@ -65,7 +68,7 @@ class GameServiceTest {
 
         // then
         then(gameResult).isEqualTo(
-                new GameResult(20, List.of(BadgeType.LUCKY_NUMBER))
+                new GameResult(10, List.of(BadgeType.LUCKY_NUMBER))
         );
 
         // Verifying the calls to the repositories methods
