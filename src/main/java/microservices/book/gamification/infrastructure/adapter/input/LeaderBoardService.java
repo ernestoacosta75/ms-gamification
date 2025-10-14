@@ -23,7 +23,7 @@ public class LeaderBoardService implements ILeaderBoardService {
         List<LeaderBoardRow> scoreOnly = scoreRepository.findFirst10();
 
         // Combining with badges
-        return scoreOnly
+        var x = scoreOnly
                 .stream()
                 .map(row -> {
                     var badges = badgeRepository.findByUserIdOrderByBadgeTimestampDesc(row.getUserId())
@@ -32,5 +32,7 @@ public class LeaderBoardService implements ILeaderBoardService {
                             .toList();
                     return row.withBadges(badges);
                 }).toList();
+
+        return x;
     }
 }
