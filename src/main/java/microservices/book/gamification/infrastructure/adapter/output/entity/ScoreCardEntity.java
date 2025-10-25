@@ -3,6 +3,7 @@ package microservices.book.gamification.infrastructure.adapter.output.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,7 +17,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ScoredCardEntity {
+@Table(name = "score_cards")
+public class ScoreCardEntity {
     @Id
     @GeneratedValue
     private Long cardId;
@@ -27,7 +29,7 @@ public class ScoredCardEntity {
     private long scoreTimestamp;
     private int score;
 
-    public ScoredCardEntity(final Long userId, final Long attemptId, final int score) {
+    public ScoreCardEntity(final Long userId, final Long attemptId, final int score) {
         this(null, userId, attemptId, System.currentTimeMillis(), score);
     }
 }

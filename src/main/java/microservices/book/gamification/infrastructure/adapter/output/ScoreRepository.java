@@ -6,8 +6,7 @@ import microservices.book.gamification.domain.model.LeaderBoardRow;
 import microservices.book.gamification.domain.model.ScoreCard;
 import microservices.book.gamification.infrastructure.adapter.mapper.ScoreCardEntityMapper;
 import microservices.book.gamification.infrastructure.adapter.output.crud.IScoreCardCrudRepository;
-import microservices.book.gamification.infrastructure.adapter.output.entity.ScoredCardEntity;
-import org.springframework.data.jpa.repository.Query;
+import microservices.book.gamification.infrastructure.adapter.output.entity.ScoreCardEntity;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public class ScoreRepository implements IScoreRepository {
     private final IScoreCardCrudRepository scoreCardCrudRepository;
 
     @Override
-    public List<ScoredCardEntity> findByUserIdOrderByBadgeTimestampDesc(long userId) {
+    public List<ScoreCardEntity> findByUserIdOrderByBadgeTimestampDesc(long userId) {
 
         return scoreCardCrudRepository.findByUserIdOrderByScoreTimestampDesc(userId);
     }

@@ -8,7 +8,7 @@ import microservices.book.gamification.domain.model.BadgeType;
 import microservices.book.gamification.domain.model.GameResult;
 import microservices.book.gamification.domain.model.ScoreCard;
 import microservices.book.gamification.infrastructure.adapter.output.entity.BadgeCardEntity;
-import microservices.book.gamification.infrastructure.adapter.output.entity.ScoredCardEntity;
+import microservices.book.gamification.infrastructure.adapter.output.entity.ScoreCardEntity;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -48,7 +48,7 @@ class GameServiceTest {
         int score = 10;
         var attempt = new ChallengeSolvedDto(attemptId, true, 20, 70, userId, "john");
         ScoreCard scoreCard = new ScoreCard(userId, attempt.getAttemptId());
-        ScoredCardEntity scoreCardEntity = new ScoredCardEntity(userId, attempt.getAttemptId(), score);
+        ScoreCardEntity scoreCardEntity = new ScoreCardEntity(userId, attempt.getAttemptId(), score);
 
         given(scoreRepository.getTotalScoreForUser(userId))
                 .willReturn(Optional.of(10));
