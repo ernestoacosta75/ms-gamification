@@ -1,6 +1,6 @@
 package microservices.book.gamification.infrastructure.adapter.input;
 
-import microservices.book.gamification.application.dto.ChallengeSolvedDto;
+import microservices.book.gamification.application.dto.ChallengeSolvedEvent;
 import microservices.book.gamification.application.port.input.IBadgeProcessor;
 import microservices.book.gamification.domain.model.BadgeType;
 import microservices.book.gamification.domain.model.ScoreCard;
@@ -12,7 +12,7 @@ import java.util.Optional;
 @Component
 public class FirstWonBadgeProcessor implements IBadgeProcessor {
     @Override
-    public Optional<BadgeType> processForOptionalBadge(int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedDto solved) {
+    public Optional<BadgeType> processForOptionalBadge(int currentScore, List<ScoreCard> scoreCardList, ChallengeSolvedEvent solved) {
         return scoreCardList.size() == 1 ? Optional.of(BadgeType.FIRST_WON) : Optional.empty();
     }
 

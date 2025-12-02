@@ -2,7 +2,7 @@ package microservices.book.gamification.infrastructure.adapter.input;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import microservices.book.gamification.application.dto.ChallengeSolvedDto;
+import microservices.book.gamification.application.dto.ChallengeSolvedEvent;
 import microservices.book.gamification.application.port.input.IBadgeProcessor;
 import microservices.book.gamification.application.port.input.IGameService;
 import microservices.book.gamification.application.port.output.IBadgeRepository;
@@ -32,7 +32,7 @@ public class GameService implements IGameService {
     private final List<IBadgeProcessor> badgeProcessors;
 
     @Override
-    public GameResult newAttemptForUser(ChallengeSolvedDto challenge) {
+    public GameResult newAttemptForUser(ChallengeSolvedEvent challenge) {
         // Giving points only if it's correct
         if (challenge.isCorrect()) {
             ScoreCard scoreCard = new ScoreCard(challenge.getUserId(), challenge.getAttemptId());
@@ -60,9 +60,9 @@ public class GameService implements IGameService {
      * Checks the total score and the different socre cards obtained
      * to give new badges in case their conditions are met.
      */
-    private List<BadgeCardAggregate> processForBadges(final ChallengeSolvedDto challengeSolvedDto) {
+    private List<BadgeCardAggregate> processForBadges(final ChallengeSolvedEvent challengeSolvedEvent) {
         Optional<Integer> optTotalScore = scoreRepository
-                .getTotalScoreForUser(challengeSolvedDto.getUserId());
+                .getTotalScoreForUser(challengeSolvedEvent.getUserId());
 
         if(optTotalScore.isEmpty()) {
             return Collections.emptyList();
@@ -72,13 +72,13 @@ public class GameService implements IGameService {
 
         // Getting the total score and existing badges for that user
         List<ScoreCard> scoreCardList = scoreRepository
-                .findByUserIdOrderByBadgeTimestampDesc(challengeSolvedDto.getUserId())
+                .findByUserIdOrderByBadgeTimestampDesc(challengeSolvedEvent.getUserId())
                 .stream()
                 .map(ScoreCardEntityMapper.MAPPER::map)
                 .toList();
 
         Set<BadgeType> alreadyGotBadges = badgeRepository
-                .findByUserIdOrderByBadgeTimestampDesc(challengeSolvedDto.getUserId())
+                .findByUserIdOrderByBadgeTimestampDesc(challengeSolvedEvent.getUserId())
                 .stream()
                 .map(IBadgeCardEntityMapper.MAPPER::mapToBadgeCardAggregate)
                 .map(BadgeCardAggregate::getBadgeType)
@@ -88,11 +88,11 @@ public class GameService implements IGameService {
         List<BadgeCardAggregate> newBadgeCards = badgeProcessors
                 .stream()
                 .filter(bp -> !alreadyGotBadges.contains(bp.badgeType()))
-                .map(bp -> bp.processForOptionalBadge(totalScore, scoreCardList, challengeSolvedDto))
+                .map(bp -> bp.processForOptionalBadge(totalScore, scoreCardList, challengeSolvedEvent))
                 .flatMap(Optional::stream) // returns an empty stream if empty
                 // mapping the optionals if present to new BadgeCardAggregate
                 .map(badgeType ->
-                        BadgeCardAggregate.create(challengeSolvedDto.getUserId(), badgeType))
+                        BadgeCardAggregate.create(challengeSolvedEvent.getUserId(), badgeType))
                 .toList();
 
         badgeRepository.saveAll(IBadgeCardEntityMapper.MAPPER.map(newBadgeCards));
