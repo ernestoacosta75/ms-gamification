@@ -14,6 +14,7 @@ import microservices.book.gamification.domain.model.ScoreCard;
 import microservices.book.gamification.infrastructure.adapter.mapper.IBadgeCardEntityMapper;
 import microservices.book.gamification.infrastructure.adapter.mapper.ScoreCardEntityMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @Slf4j
 @RequiredArgsConstructor
 public class GameService implements IGameService {
