@@ -1,6 +1,6 @@
 package microservices.book.gamification.infrastructure.adapter.input;
 
-import microservices.book.gamification.application.dto.ChallengeSolvedDto;
+import microservices.book.gamification.application.dto.ChallengeSolvedEvent;
 import microservices.book.gamification.application.port.input.IBadgeProcessor;
 import microservices.book.gamification.application.port.output.IBadgeRepository;
 import microservices.book.gamification.application.port.output.IScoreRepository;
@@ -18,7 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.assertj.core.api.BDDAssertions.then;
 import static org.mockito.Mockito.verify;
@@ -46,7 +45,7 @@ class GameServiceTest {
         // given
         long userId = 1L, attemptId = 1L, badgeId = 1L;
         int score = 10;
-        var attempt = new ChallengeSolvedDto(attemptId, true, 20, 70, userId, "john");
+        var attempt = new ChallengeSolvedEvent(attemptId, true, 20, 70, userId, "john");
         ScoreCard scoreCard = new ScoreCard(userId, attempt.getAttemptId());
         ScoreCardEntity scoreCardEntity = new ScoreCardEntity(userId, attempt.getAttemptId(), score);
 

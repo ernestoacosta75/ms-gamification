@@ -1,6 +1,6 @@
 package microservices.book.gamification.application.port.input;
 
-import microservices.book.gamification.application.dto.ChallengeSolvedDto;
+import microservices.book.gamification.application.dto.ChallengeSolvedEvent;
 import microservices.book.gamification.domain.model.GameResult;
 
 public interface IGameService {
@@ -10,5 +10,5 @@ public interface IGameService {
      * @param challenge the challenge data with user details, factors, etc.
      * @return a {@link GameResult} object containing the new score and badge cards obtained
      */
-    GameResult newAttemptForUser(ChallengeSolvedDto challenge);
+    GameResult newAttemptForUser(ChallengeSolvedEvent challenge);
 }

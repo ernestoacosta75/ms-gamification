@@ -3,7 +3,7 @@ package microservices.book.gamification.application.dto;
 import lombok.Value;
 
 @Value
-public class ChallengeSolvedDto
+public class ChallengeSolvedEvent
 {
     long attemptId;
     boolean correct;
