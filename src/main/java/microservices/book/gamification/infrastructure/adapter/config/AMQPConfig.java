@@ -37,9 +37,8 @@ public class AMQPConfig {
     @Bean
     public Queue gamificationQueue(@Value("${amqp.queue.gamification}") String queueName) {
         // Configuring the queue to have a custom TTL of six hours and a maximum length of 25,000 messages.
+        // These parameters will be configured as apolicy in the RabbitMQ broker instead of here in the code.
         return QueueBuilder.durable(queueName)
-                .ttl((int) Duration.ofHours(6).toMillis())
-                .maxLength(25000)
                 .build();
     }
 
